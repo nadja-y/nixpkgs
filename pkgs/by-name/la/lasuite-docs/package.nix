@@ -11,12 +11,12 @@
   yarnConfigHook,
 }:
 let
-  version = "4.8.1";
+  version = "5.4.1";
   src = fetchFromGitHub {
     owner = "suitenumerique";
     repo = "docs";
     tag = "v${version}";
-    hash = "sha256-R8DO7hsWt8+aKnHFEoZ06f1f+r8dNmNoPZRVBfr9VCY=";
+    hash = "sha256-Xomq2i1t1POgggcAR8FAWf+Lr0y6YOKGvANFOv/BH20=";
   };
 
   mail-templates = stdenv.mkDerivation {
@@ -29,7 +29,7 @@ let
 
     offlineCache = fetchYarnDeps {
       yarnLock = "${src}/src/mail/yarn.lock";
-      hash = "sha256-ag9+g48dWl5Ww/78qqgtcKwiyPVlpNiJ7w7+DPaar2U=";
+      hash = "sha256-miA1ysqNSaBZSb2B2uqTx1rea9R5/AgRfuCPr5X0bx8=";
     };
 
     nativeBuildInputs = [
@@ -52,14 +52,22 @@ python3Packages.buildPythonApplication (finalAttrs: {
   patches = [
     # Support configuration throught environment variables for SECURE_*
     ./secure_settings.patch
-
-    # Fix creation of unsafe C function in postgresql migrations
-    ./postgresql_fix.patch
   ];
 
+  # They use a old version of mistralai which exported a class
+  # at the top level
+  postPatch = ''
+    substituteInPlace core/services/ai_services/legacy.py \
+      --replace-fail \
+        "from mistralai import Mistral" \
+        "from mistralai.client import Mistral"
+
+    substituteInPlace pyproject.toml \
+      --replace-fail "uv_build>=0.11.9,<0.12" "uv_build"
+  ''
   # Otherwise fails with:
   # socket.gaierror: [Errno 8] nodename nor servname provided, or not known
-  postPatch = lib.optionalString stdenv.hostPlatform.isDarwin ''
+  + lib.optionalString stdenv.hostPlatform.isDarwin ''
     substituteInPlace impress/settings.py \
       --replace-fail \
         "gethostname()" \
@@ -67,7 +75,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
   '';
   __darwinAllowLocalNetworking = true;
 
-  build-system = with python3Packages; [ setuptools ];
+  build-system = with python3Packages; [ uv-build ];
 
   dependencies =
     with python3Packages;
@@ -75,6 +83,8 @@ python3Packages.buildPythonApplication (finalAttrs: {
       beautifulsoup4
       boto3
       celery
+      emoji
+      dj-database-url
       django
       django-configurations
       django-cors-headers
@@ -88,6 +98,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
       django-storages
       django-timezone-field
       django-treebeard
+      django-waffle
       djangorestframework
       drf-spectacular
       drf-spectacular-sidecar
@@ -99,9 +110,11 @@ python3Packages.buildPythonApplication (finalAttrs: {
       langfuse
       lxml
       markdown
+      mistralai
       mozilla-django-oidc
       nested-multipart-parser
       openai
+      posthog
       psycopg
       pycrdt
       pydantic-ai-slim
@@ -145,6 +158,8 @@ python3Packages.buildPythonApplication (finalAttrs: {
 
       mkdir -p $out/${python3.sitePackages}/core/templates
       ln -sv ${mail-templates}/ $out/${python3.sitePackages}/core/templates/mail
+
+      cp -r impress/configuration $out/${python3.sitePackages}/impress/configuration
     '';
 
   passthru.tests = {
@@ -156,8 +171,11 @@ python3Packages.buildPythonApplication (finalAttrs: {
     homepage = "https://github.com/suitenumerique/docs";
     changelog = "https://github.com/suitenumerique/docs/blob/${finalAttrs.src.tag}/CHANGELOG.md";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ soyouzpanda ];
+    maintainers = with lib.maintainers; [
+      soyouzpanda
+      ma27
+    ];
     mainProgram = "docs";
-    platforms = lib.platforms.all;
+    platforms = lib.platforms.linux;
   };
 })

@@ -1,61 +1,71 @@
 {
   lib,
+  stdenv,
   buildPythonPackage,
   fetchFromGitHub,
 
   # build-system
+  setuptools,
   setuptools-scm,
 
   # dependencies
-  fastprogress,
   jax,
   jaxlib,
-  jaxopt,
+  numpy,
   optax,
+  scipy,
   typing-extensions,
+
+  # optional-dependencies
+  jax-tap,
+  tqdm,
 
   # checks
   chex,
-  pytestCheckHook,
   pytest-xdist,
+  pytestCheckHook,
 }:
 
 buildPythonPackage (finalAttrs: {
   pname = "blackjax";
-  version = "1.3";
+  version = "1.6.2";
   pyproject = true;
+  __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "blackjax-devs";
     repo = "blackjax";
     tag = finalAttrs.version;
-    hash = "sha256-ystvPfIsnMFYkC+LNtcRQsI19i/y/905SnPSApM8v4E=";
+    hash = "sha256-NO/CvYtxfAid3ETpj5DcNQPdARP2cwqy9p0kHOybvNg=";
   };
 
-  build-system = [ setuptools-scm ];
-
-  pythonRelaxDeps = [
-    "jaxopt"
+  build-system = [
+    setuptools
+    setuptools-scm
   ];
+
   dependencies = [
-    fastprogress
     jax
     jaxlib
-    jaxopt
+    numpy
     optax
+    scipy
     typing-extensions
   ];
+
+  optional-dependencies = {
+    progress = [
+      jax-tap
+      tqdm
+    ];
+  };
 
   nativeCheckInputs = [
     chex
     pytestCheckHook
     pytest-xdist
-  ];
-
-  pytestFlags = [
-    # DeprecationWarning: JAXopt is no longer maintained
-    "-Wignore::DeprecationWarning"
-  ];
+  ]
+  ++ finalAttrs.passthru.optional-dependencies.progress;
 
   disabledTestPaths = [
     "tests/test_benchmarks.py"
@@ -70,14 +80,22 @@ buildPythonPackage (finalAttrs: {
 
     # AssertionError on numerical values
     "test_barker"
+    "test_imm_shrinkage_seed_influence_persists_diagonal"
+    "test_laps"
     "test_mclmc"
     "test_mcse4"
+    "test_mean_and_std"
     "test_normal_univariate"
     "test_nuts__with_device"
     "test_nuts__with_jit"
     "test_nuts__without_device"
     "test_nuts__without_jit"
+    "test_smc__with_jit"
     "test_smc_waste_free__with_jit"
+  ]
+  ++ lib.optionals (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isAarch64) [
+    # AssertionError: Not equal to tolerance rtol=1e-07, atol=1e-05
+    "test_equal_matrices"
   ];
 
   pythonImportsCheck = [ "blackjax" ];

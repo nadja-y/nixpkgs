@@ -83,13 +83,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "gdal" + lib.optionalString useMinimalFeatures "-minimal";
-  version = "3.12.3";
+  version = "3.13.1";
 
   src = fetchFromGitHub {
     owner = "OSGeo";
     repo = "gdal";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-tGyZB0e2DNyi3OpiOb1Mk8R8SdQRwhxCy8fOQrauVso=";
+    hash = "sha256-IsSENjOJpCMnGR1O8/gV6X7GTNIK/c+JIYBrkxDgj/A=";
   };
 
   nativeBuildInputs = [
@@ -257,9 +257,15 @@ stdenv.mkDerivation (finalAttrs: {
   ];
   disabledTestPaths = [
     # tests that attempt to make network requests
+    "gcore/basic_test.py::test_hint_http"
     "gcore/vsis3.py"
     "gdrivers/gdalhttp.py"
+    "gdrivers/hdf5multidim.py::test_hdf5_multimdim_eos_grid_dimension_list"
     "gdrivers/wms.py"
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [
+    # Trace/BPT trap: 5 on macOS
+    "gcore/hdf4multidim.py"
   ];
   disabledTests = [
     # tests that attempt to make network requests
@@ -303,6 +309,11 @@ stdenv.mkDerivation (finalAttrs: {
   ]
   ++ lib.optionals (!usePoppler) [
     "test_pdf_jpx_compression"
+  ]
+  ++ lib.optionals (!useNetCDF) [
+    # writes the Zarr tile-presence cache (.gmac) via the netCDF driver, which
+    # is absent in the minimal build
+    "test_zarr_read_simple_sharding"
   ];
   postCheck = ''
     popd # autotest

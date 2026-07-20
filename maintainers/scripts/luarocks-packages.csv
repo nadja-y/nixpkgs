@@ -8,10 +8,12 @@ binaryheap,,,,,,vcunat
 bit32,,,,,5.1,lblasc
 busted,,,,,,
 busted-htest,,,,,,mrcjkb
+canola.nvim,,,,,,saadndm
 cassowary,,,,,,alerque
 cldr,,,,,,alerque
 commons.nvim,,,,,5.1,mrcjkb
 compat53,,,,,,vcunat
+coop.nvim,,,,,,
 cosmo,,,,,,
 coxpcall,,,,1.17.0-1,,
 cqueues,,,,,,vcunat
@@ -34,6 +36,7 @@ haskell-tools.nvim,,,,,5.1,mrcjkb
 http,,,,0.4-0,,vcunat
 inspect,,,,,,
 jsregexp,,,,0.0.7-2,,
+kulala.nvim,,,,,,
 ldbus,,,https://luarocks.org/dev,,,
 ldoc,,,,,,
 lgi,,,,,,
@@ -49,9 +52,12 @@ lpeglabel,,,,1.6.0,,
 lrexlib-gnu,,,,,,
 lrexlib-oniguruma,,,,,,junestepp
 lrexlib-pcre,,,,,,
+lrexlib-pcre2,,,,,,wishstudio
 lrexlib-posix,,,,,,
 lsp-progress.nvim,,,,,5.1,gepbird
 lsqlite3,,,,,,
+ltreesitter,,,,,,
+ltreesitter-ts,,,,,,
 lua-cjson,,,,,,
 lua-cmsgpack,,,,,,
 lua-curl,,,,,,
@@ -65,7 +71,7 @@ lua-resty-jwt,,,,,,
 lua-resty-openidc,,,,,,
 lua-resty-openssl,,,,,,
 lua-resty-session,,,,,,
-lua-rtoml,https://raw.githubusercontent.com/lblasc/lua-rtoml/main/lua-rtoml-0.2-0.rockspec,,,,,lblasc
+lua-rtoml,https://raw.githubusercontent.com/lblasc/lua-rtoml/eb89439070c72ccf05efb8576abae7643abab354/lua-rtoml-0.3-0.rockspec,,,,,lblasc
 lua-subprocess,https://raw.githubusercontent.com/0x0ade/lua-subprocess/master/subprocess-scm-1.rockspec,,,,5.1,scoder12
 lua-term,,,,,,
 lua-toml,,,,,,
@@ -95,6 +101,7 @@ luaprompt,,,,,,Freed-Wu
 luarepl,,,,,,
 luarocks,,,,,,mrcjkb teto
 luarocks-build-rust-mlua,,,,,,mrcjkb
+luarocks-build-tree-sitter-cli,,,,,,
 luarocks-build-treesitter-parser,,,,,,mrcjkb
 luarocks-build-treesitter-parser-cpp,,,,,,mrcjkb
 luasec,,,,,,flosse
@@ -120,6 +127,8 @@ magick,,,,,5.1,donovanglover
 markdown,,,,,,
 md5,,,,,,
 mediator_lua,,,,,,
+mega.cmdparse,,,,,,
+mega.logging,,,,,,
 middleclass,,,,,,
 mimetypes,,,,,,
 mini.test,,,,,,
@@ -128,6 +137,7 @@ mpack,,,,,,
 neorg,,,,,5.1,GaetanLepage
 neorg-interim-ls,,,,,,
 neotest,,,,,5.1,mrcjkb
+neotest-nix,,,,,,khaneliman
 nginx-lua-prometheus,,,,,,ulysseszhan
 nlua,,,,,,teto
 nui.nvim,,,,,5.1,mrcjkb
@@ -156,16 +166,22 @@ sqlite,,,,,,
 std._debug,,,,,,
 std.normalize,,,,,,
 stdlib,,,,41.2.2,,
-teal-language-server,,,,0.0.5-1,,
+teal-language-server,,,,,,
 telescope-manix,,,,,,
 telescope.nvim,,,,,5.1,
 tiktoken_core,,,,,,natsukium
 tl,,,,,,mephistophiles
 toml-edit,,,,,5.1,mrcjkb
+tomlua,,,,,,birdee
+tree-sitter-cli,,,,,,
 tree-sitter-http,,,,0.0.33-1,,
+tree-sitter-kulala_http,,,,,,
 tree-sitter-norg,,,,,5.1,mrcjkb
+tree-sitter-norg-meta,,,,,,
 tree-sitter-orgmode,,,,,5.1,
+tree-sitter-teal,,,,,,
 utf8,,,,,,
+vicious,,,,,,
 vstruct,,,,,,
 vusted,,,,,,
 xml2lua,,,,,,teto

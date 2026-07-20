@@ -15,14 +15,14 @@
 
 buildPythonPackage (finalAttrs: {
   pname = "cyvest";
-  version = "5.3.3";
+  version = "6.0.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "PakitoSec";
     repo = "cyvest";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-4vNfv5dIoeRhnTXNFgqvtxBaCONceXnJhF9RsLD1CIA=";
+    hash = "sha256-QJirMx/cr9QSCS3wSEDHSGjmBe9XWAtjBEh1ZiRWUGU=";
   };
 
   postPatch = ''

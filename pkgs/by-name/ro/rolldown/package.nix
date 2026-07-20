@@ -10,7 +10,7 @@
   cargo,
   rustc,
   cmake,
-  version ? "1.0.0-rc.5",
+  version ? "1.0.0",
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "rolldown";
@@ -22,13 +22,13 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "rolldown";
     repo = "rolldown";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-uqgJN7jn70z3cQlEEyk+0TeiHDn1AkvMmCaEOksHxhM=";
+    hash = "sha256-EbxZe2JBj69F6bpPn4X7BTRE/dTb/mUIvvqw7oqhAe8=";
   };
   cargoDeps = rustPlatform.fetchCargoVendor {
     pname = "rolldown";
     version = finalAttrs.version;
     src = finalAttrs.src;
-    hash = "sha256-tyayOAwdqP1euzicJrstwHiHxoFRWq+IGSiN/uFNZz8=";
+    hash = "sha256-VDDbS45Lefs/4x0fU1rULgBtjzZJgL1t2lYwENPknEE=";
   };
   pnpmDeps = fetchPnpmDeps {
     pname = "rolldown";
@@ -36,7 +36,7 @@ stdenv.mkDerivation (finalAttrs: {
     src = finalAttrs.src;
     pnpm = pnpm_10;
     fetcherVersion = 3;
-    hash = "sha256-16NBCf4dP8a8dbgnmtFawMHKD7geIkLXt4F4w18FSUM=";
+    hash = "sha256-pq94ZI0WW9XJFzecdiM/PaOUp7DSSOWWjRO91rd8Xs4=";
   };
 
   # cmake is only needed for Rust build (mimalloc-sys), not for a top-level configure

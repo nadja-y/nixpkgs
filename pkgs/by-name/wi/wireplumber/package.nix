@@ -25,7 +25,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "wireplumber";
-  version = "0.5.13";
+  version = "0.5.15";
 
   outputs = [
     "out"
@@ -38,11 +38,12 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "pipewire";
     repo = "wireplumber";
     tag = finalAttrs.version;
-    hash = "sha256-iQpMT01mRroaA48spA11zdb47L5AcVmigE4nJuJRaUo=";
+    hash = "sha256-28JrX8V23VpTe6GPI6g/JlN7412yJLMcwEre2Jv77qg=";
   };
 
   strictDeps = true;
   __structuredAttrs = true;
+  separateDebugInfo = true;
 
   nativeBuildInputs = [
     meson

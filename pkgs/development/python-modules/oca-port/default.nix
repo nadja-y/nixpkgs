@@ -13,7 +13,7 @@
 
 buildPythonPackage rec {
   pname = "oca-port";
-  version = "0.19";
+  version = "0.22";
   pyproject = true;
 
   src = fetchFromGitHub {
@@ -21,7 +21,7 @@ buildPythonPackage rec {
     owner = "OCA";
     repo = "oca-port";
     tag = "v${version}";
-    hash = "sha256-5Iw9gbc8+x82huAMrqMHKXmJ12Drtaz3USdCucx1ruY=";
+    hash = "sha256-8YaWgbq75bvUdnMdgdqNZkPDKZ5PgQ3qYHBeIliyCzI=";
   };
 
   build-system = [

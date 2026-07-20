@@ -16,16 +16,18 @@
   wayland,
   wayland-protocols,
   wayland-scanner,
-  wlroots_0_19,
+  wlroots_0_20,
   xwayland,
-  zig_0_15,
+  zig_0_16,
   withManpages ? true,
   xwaylandSupport ? true,
 }:
-
+let
+  zig = zig_0_16;
+in
 stdenv.mkDerivation (finalAttrs: {
   pname = "river";
-  version = "0.4.1";
+  version = "0.4.5";
 
   outputs = [ "out" ] ++ lib.optionals withManpages [ "man" ];
 
@@ -33,7 +35,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "river";
     repo = "river";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-EGWLJY9VPdoc4LrXkWi8cNLkahorvDeAIfSOc5yDfbU=";
+    hash = "sha256-q4JAlr9/ex+BEgktBmFwOvZzQEAGvxXPD1QyKqyha4g=";
   };
 
   strictDeps = true;
@@ -44,7 +46,7 @@ stdenv.mkDerivation (finalAttrs: {
     pkg-config
     wayland-scanner
     xwayland
-    zig_0_15
+    zig
   ]
   ++ lib.optional withManpages scdoc;
 
@@ -58,7 +60,7 @@ stdenv.mkDerivation (finalAttrs: {
     wayland
     wayland-protocols
     wayland-scanner
-    wlroots_0_19
+    wlroots_0_20
   ]
   ++ lib.optionals xwaylandSupport [
     libx11
@@ -75,6 +77,10 @@ stdenv.mkDerivation (finalAttrs: {
   nativeInstallCheckInputs = [ versionCheckHook ];
   versionCheckProgramArg = "-version";
 
+  postInstall = ''
+    install contrib/river.desktop -Dt $out/share/wayland-sessions
+  '';
+
   passthru = {
     providedSessions = [ "river" ];
     updateScript = ./update.sh;
@@ -83,6 +89,7 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "Non-monolithic Wayland compositor";
     homepage = "https://codeberg.org/river/river";
+    donationPage = "https://codeberg.org/river/river#donate";
     longDescription = ''
       River is a non-monolithic Wayland compositor.
       Unlike other Wayland compositors, river does not combine the compositor and window manager into one program.
@@ -102,5 +109,9 @@ stdenv.mkDerivation (finalAttrs: {
     ];
     mainProgram = "river";
     platforms = lib.platforms.linux;
+    badPlatforms = [
+      # Runs out of memory (using > 100GiB) while building
+      "aarch64-linux"
+    ];
   };
 })

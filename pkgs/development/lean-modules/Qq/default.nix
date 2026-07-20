@@ -6,13 +6,14 @@
 
 buildLakePackage {
   pname = "lean4-Qq";
-  version = "4.28.0";
+  # nixpkgs-update: no auto update
+  version = "4.30.0";
 
   src = fetchFromGitHub {
     owner = "leanprover-community";
     repo = "quote4";
-    tag = "v4.28.0";
-    hash = "sha256-BRrSdDJQAsgM/NeSL2FODCez/8zEffjDRWUToGlKDNQ=";
+    tag = "v4.30.0";
+    hash = "sha256-jVsRw/R7D7HmsE7vQvVeDXcnVerlcDBOrhf9FJJiXkY=";
   };
 
   leanPackageName = "Qq";

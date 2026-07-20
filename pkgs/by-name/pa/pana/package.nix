@@ -9,13 +9,13 @@
 }:
 buildDartApplication rec {
   pname = "pana";
-  version = "0.23.11";
+  version = "0.23.14";
 
   src = fetchFromGitHub {
     owner = "dart-lang";
     repo = "pana";
     tag = version;
-    hash = "sha256-v4iGvywxxcPy0JcXRNo/7JIKIcy777XBMApm0dcgLnM=";
+    hash = "sha256-yBheou/u8TjL+MDhxd6AhWPJARLEcQF+ojmDqkv8zi4=";
   };
 
   dartEntryPoints = {
